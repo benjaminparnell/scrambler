@@ -39,7 +39,19 @@ class Results extends React.Component<Props, any> {
           />
         </div>
 
-        <ResultsTable results={this.props.results} />
+        <div className="columns">
+          <div className="column">
+            <h2 className="subtitle">All</h2>
+            <ResultsTable results={this.props.results} reverse={true} />
+          </div>
+          <div className="column">
+            <h2 className="subtitle">Top 5</h2>
+            <ResultsTable
+              results={this.props.results.sort().slice(0, 5)}
+              reverse={false}
+            />
+          </div>
+        </div>
       </div>
     );
   }
@@ -60,23 +72,37 @@ const ResultStatistic = ({
   </div>
 );
 
-const ResultsTable = ({ results }: { results: number[] }) => (
-  <table className="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      {results.reverse().map((result, index) => (
-        <tr key={results.length - index}>
-          <th>{results.length - index}</th>
-          <td>{result}</td>
+const ResultsTable = ({
+  results,
+  reverse
+}: {
+  results: number[];
+  reverse: boolean;
+}) => {
+  if (reverse) {
+    results = results.reverse();
+  }
+  return (
+    <table className="table is-fullwidth is-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Time</th>
         </tr>
-      ))}
-    </tbody>
-  </table>
-);
+      </thead>
+      <tbody>
+        {results.map((result, index) => {
+          const key = reverse ? results.length - index : index + 1;
+          return (
+            <tr key={key}>
+              <th>{key}</th>
+              <td>{result}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
 
 export default Results;
