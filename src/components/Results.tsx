@@ -46,10 +46,7 @@ class Results extends React.Component<Props, any> {
           </div>
           <div className="column">
             <h2 className="subtitle">Top 5</h2>
-            <ResultsTable
-              results={this.props.results.sort().slice(0, 5)}
-              reverse={false}
-            />
+            <ResultsTable results={this.props.results.sort().slice(0, 5)} />
           </div>
         </div>
       </div>
@@ -77,7 +74,7 @@ const ResultsTable = ({
   reverse
 }: {
   results: number[];
-  reverse: boolean;
+  reverse?: boolean;
 }) => {
   if (reverse) {
     results = results.reverse();
