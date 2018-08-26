@@ -1,52 +1,41 @@
 import * as React from 'react';
+import StatisticsService from '../services/statistics';
+import { lazyInject } from '../container';
 
 type Props = {
   results: number[];
 };
 
 class Results extends React.Component<Props, any> {
+  @lazyInject('StatisticsService')
+  private statisticsService!: StatisticsService;
+
   static defaultProps: Props = {
     results: []
   };
 
-  private average(results: number[]) {
-    return (
-      results.reduce((total, n) => total + n, 0) / results.length
-    ).toFixed(3);
-  }
-
-  private averageLastFive() {
-    return this.average(this.props.results.slice(-5));
-  }
-
-  private best() {
-    return this.props.results.sort()[0];
-  }
-
   render() {
+    const { results } = this.props;
+    const statistics = this.statisticsService.getStatistics(results);
     return (
       <div>
         <div className="level">
-          <ResultStatistic title="Best" statistic={this.best()} />
-
-          <ResultStatistic
-            title="Average"
-            statistic={this.average(this.props.results)}
-          />
+          <ResultStatistic title="Best" statistic={statistics.best} />
+          <ResultStatistic title="Average" statistic={statistics.average} />
           <ResultStatistic
             title="Average (Last 5)"
-            statistic={this.averageLastFive()}
+            statistic={statistics.averageLastFive}
           />
         </div>
 
         <div className="columns">
           <div className="column">
             <h2 className="subtitle">All</h2>
-            <ResultsTable results={this.props.results} reverse={true} />
+            <ResultsTable results={results} reverse={true} />
           </div>
           <div className="column">
             <h2 className="subtitle">Top 5</h2>
-            <ResultsTable results={this.props.results.sort().slice(0, 5)} />
+            <ResultsTable results={results.sort().slice(0, 5)} />
           </div>
         </div>
       </div>
@@ -64,7 +53,9 @@ const ResultStatistic = ({
   <div className="level-item has-text-centered">
     <div>
       <p className="heading">{title}</p>
-      <p className="title">{statistic}</p>
+      <p className="title">
+        {statistic && statistic !== 'NaN' ? statistic : 'N/A'}
+      </p>
     </div>
   </div>
 );

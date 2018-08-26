@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -21,6 +22,7 @@
     "react-dom": "^16.4.2",
     "react-keydown": "^1.9.7",
     "reflect-metadata": "^0.1.12",
+    "styled-components": "^3.4.5",
     "typescript": "^3.0.1"
   }
 }

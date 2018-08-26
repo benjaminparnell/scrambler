@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as autobind from 'auto-bind';
+import styled from 'styled-components';
 
 const ONE_SECOND = 1000;
 
@@ -11,6 +12,11 @@ type State = {
 type Props = {
   onReset: (ticks: number) => void;
 };
+
+const TimerTitle = styled.h1`
+  font-size: 7em;
+  text-align: center;
+`;
 
 class Timer extends React.Component<Props, State> {
   private interval!: number;
@@ -59,12 +65,10 @@ class Timer extends React.Component<Props, State> {
   render() {
     const ticks = this.state.ticks;
     return (
-      <div className="has-text-centered">
-        <h2 className="title">
-          {Math.floor(ticks / ONE_SECOND)}.
-          {(ticks % ONE_SECOND).toString().padStart(3, '0')}
-        </h2>
-      </div>
+      <TimerTitle className="title">
+        {Math.floor(ticks / ONE_SECOND)}.
+        {(ticks % ONE_SECOND).toString().padStart(3, '0')}
+      </TimerTitle>
     );
   }
 }
