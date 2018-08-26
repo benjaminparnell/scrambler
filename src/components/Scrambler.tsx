@@ -25,11 +25,15 @@ class Scrambler extends React.Component<any, State> {
 
   render() {
     return (
-      <div>
-        <h2 className="subtitle">{this.state.scramble}</h2>
-        <button className="button" onClick={this.generateScramble}>
-          generate
-        </button>
+      <div className="field has-addons">
+        <div className="control is-expanded">
+          <p className="input">{this.state.scramble}</p>
+        </div>
+        <div className="control">
+          <a className="button is-info" onClick={this.generateScramble}>
+            Generate
+          </a>
+        </div>
       </div>
     );
   }
